@@ -83,6 +83,14 @@
         <script>
           function doHash() {
             for(var i = 1; i <=3; i++) {
+
+                var lastElem = document.getElementById('block_'+(i-1)+'_hash');
+                if(lastElem) {
+                    document.getElementById('block_'+i+'_last_hash').value = lastElem.value;
+                } else {
+                    document.getElementById('block_'+i+'_last_hash').value = '0000000000000000000000000000000000000000000000000000000000000000';
+                }
+
                 var block_id = document.getElementById('block_'+i+'_id').value;
                 var block_nonce = document.getElementById('block_'+i+'_nonce').value;
                 var block_data = document.getElementById('block_'+i+'_data').value;
@@ -94,12 +102,6 @@
                 var digest_sha256 = sjcl.codec.hex.fromBits(bitArray);
 
                 document.getElementById('block_'+i+'_hash').value = digest_sha256;
-                var lastElem = document.getElementById('block_'+(i-1)+'_hash');
-                if(lastElem) {
-                    document.getElementById('block_'+i+'_last_hash').value = lastElem.value;
-                } else {
-                    document.getElementById('block_'+i+'_last_hash').value = '0000000000000000000000000000000000000000000000000000000000000000';
-                }
             }
           }
 
