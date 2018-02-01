@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <style>
+            table {
+                display: inline-block;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Blockchain</h1>
+
+        <div>
+            <table>
+                <tr>
+                    <td>Block:</td>
+                    <td><input type="text" placeholder="#" id="block_1_id" value="1"></td>
+                </tr>
+                <tr>
+                    <td>Nonce:</td>
+                    <td><input type="text" placeholder="" id="block_1_nonce"></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td><textarea id="block_1_data"></textarea></td>
+                </tr>
+                <tr>
+                    <td>LastHash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_1_last_hash"></td>
+                </tr>
+                <tr>
+                    <td>Hash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_1_hash"></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Block:</td>
+                    <td><input type="text" placeholder="#" id="block_2_id" value="2"></td>
+                </tr>
+                <tr>
+                    <td>Nonce:</td>
+                    <td><input type="text" placeholder="" id="block_2_nonce"></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td><textarea id="block_2_data"></textarea></td>
+                </tr>
+                <tr>
+                    <td>LastHash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_2_last_hash"></td>
+                </tr>
+                <tr>
+                    <td>Hash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_2_hash"></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Block:</td>
+                    <td><input type="text" placeholder="#" id="block_3_id" value="3"></td>
+                </tr>
+                <tr>
+                    <td>Nonce:</td>
+                    <td><input type="text" placeholder="" id="block_3_nonce"></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td><textarea id="block_3_data"></textarea></td>
+                </tr>
+                <tr>
+                    <td>LastHash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_3_last_hash"></td>
+                </tr>
+                <tr>
+                    <td>Hash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_3_hash"></td>
+                </tr>
+            </table>
+        </div>
+
+        <script src="sjcl.js"></script>
+        <script>
+          function doHash() {
+            for(var i = 1; i <=3; i++) {
+                var block_id = document.getElementById('block_'+i+'_id').value;
+                var block_nonce = document.getElementById('block_'+i+'_nonce').value;
+                var block_data = document.getElementById('block_'+i+'_data').value;
+                var last_hash = document.getElementById('block_'+i+'_last_hash').value;
+
+                var input = '' + block_id + block_nonce + block_data + last_hash;
+
+                var bitArray = sjcl.hash.sha256.hash(input);
+                var digest_sha256 = sjcl.codec.hex.fromBits(bitArray);
+
+                document.getElementById('block_'+i+'_hash').value = digest_sha256;
+                var lastElem = document.getElementById('block_'+(i-1)+'_hash');
+                if(lastElem) {
+                    document.getElementById('block_'+i+'_last_hash').value = lastElem.value;
+                } else {
+                    document.getElementById('block_'+i+'_last_hash').value = '0000000000000000000000000000000000000000000000000000000000000000';
+                }
+            }
+          }
+
+          doHash();
+
+          document.getElementById('block_1_id').onkeyup = doHash;
+          document.getElementById('block_1_nonce').onkeyup = doHash;
+          document.getElementById('block_1_data').onkeyup = doHash;
+
+          document.getElementById('block_2_id').onkeyup = doHash;
+          document.getElementById('block_2_nonce').onkeyup = doHash;
+          document.getElementById('block_2_data').onkeyup = doHash;
+
+          document.getElementById('block_3_id').onkeyup = doHash;
+          document.getElementById('block_3_nonce').onkeyup = doHash;
+          document.getElementById('block_3_data').onkeyup = doHash;
+        </script>
+    </body>
+</html>

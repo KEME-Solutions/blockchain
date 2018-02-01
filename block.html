@@ -1,0 +1,50 @@
+<html>
+    <head></head>
+    <body>
+        <h1>Block</h1>
+
+        <div>
+            <table>
+                <tr>
+                    <td>Block:</td>
+                    <td><input type="text" placeholder="#" id="block_id"></td>
+                </tr>
+                <tr>
+                    <td>Nonce:</td>
+                    <td><input type="text" placeholder="" id="block_nonce"></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td><textarea id="block_data"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Hash:</td>
+                    <td><input disabled type="text" placeholder="#" id="block_hash"></td>
+                </tr>
+            </table>
+        </div>
+
+        <script src="sjcl.js"></script>
+        <script>
+          function doHash() {
+            var block_id = document.getElementById('block_id').value;
+            var block_nonce = document.getElementById('block_nonce').value;
+            var block_data = document.getElementById('block_data').value;
+
+            var input = '' + block_id + block_nonce + block_data;
+
+            var bitArray = sjcl.hash.sha256.hash(input);
+            var digest_sha256 = sjcl.codec.hex.fromBits(bitArray);
+
+            document.getElementById('block_hash').value = digest_sha256;
+
+          }
+
+          doHash();
+
+          document.getElementById('block_id').onkeyup = doHash;
+          document.getElementById('block_nonce').onkeyup = doHash;
+          document.getElementById('block_data').onkeyup = doHash;
+        </script>
+    </body>
+</html>
